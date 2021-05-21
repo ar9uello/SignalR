@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Jugo</title>
+    <link href="../bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <header class="row">
+            <div class="col-12 text-center">
+                <img height="200" src="../images/Jugo.jpg" alt="logo" />
+            </div>
+        </header>
+        <form>
+            <div class="row">
+                <div class="col-12">
+                    <label>Status:</label>
+                    <div id="status" style="border-style:solid; border-width:thin; padding: 5px">&nbsp;</div>
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-12">
+                    <label htmlFor="juicyType">Juice Type</label>
+                    <select id="juicyType" class="form-control">
+                        <option value="Orange Juice">Orange Juice</option>
+                        <option value="Apple Juice">Apple Juice</option>
+                    </select>
+                </div>
+                <div class="form-group col-12">
+                    <label htmlFor="clientName">Client Name</label>
+                    <input type="text" id="clientName" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button id="submit" type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../signalr.js"></script>
+    <script>
+
+        let connection = null;
+        setupConnection = () => {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("/hub")
+                .build();
+
+            connection.on("OrderReceived", (order) => {
+                const statusDiv = document.getElementById("status");
+                statusDiv.innerHTML = "Order " + order.id + " Received";
+            });
+
+            connection.on("SendJuice", (order) => {
+                const statusDiv = document.getElementById("status");
+                statusDiv.innerHTML = "Order " + order.id + " On the way";
+            });
+
+            connection.on("JuiceDelivered", (order) => {
+                const statusDiv = document.getElementById("status");
+                statusDiv.innerHTML = "Order " + order.id + " Delivered";
+            });
+
+            connection.start()
+                .catch(err => console.error(err.toString()));
+        };
+        setupConnection();
+
+        window.addEventListener('load', (event) => {
+            const names = ["Hugo", "Paco", "Luis"];
+            const random = Math.floor(Math.random() * names.length);
+            document.getElementById("clientName").value = names[random];
+        });
+
+        document.getElementById("submit").addEventListener("click", e => {
+            e.preventDefault();
+
+            document.getElementById("status").value = "";
+
+            const juicyType = document.getElementById("juicyType").value;
+            const clientName = document.getElementById("clientName").value;
+
+            connection.invoke("NewOrder", juicyType, clientName);
+
+            document.getElementById("submit").setAttribute("disabled", "disabled");
+
+        });
+
+    </script>
+</body>
+</html>
