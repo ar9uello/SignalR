@@ -1,56 +1,417 @@
+# Sacred Valley WEB API
 
-# NetChallenge
 
-I was asked to design and build an application that allows several users to talk in a chatroom and also to get stock quotes
-from an API using a specific command.
+[View Demo](https://sacred-web-dev.applaudostudios.com) ·
 
-# Tecnical Summary
+[Report Bug](https://applaudostudios.atlassian.net/browse) ·
 
-- The project consists of four microservices each of them is designed with a clean architecture. 
-  - Each microservice is responsible for:
-    1. Login management
-    2. API responsible for managing chat messages
-    3. Bot responsible for obtaining data from stooq.com site, parsing information, and sending messages to chat
-    4. User interface made with Blazor
-- Communication between services is done with RabbitMQ
-- The DB is in the cloud. 
-- This project use Swagger for documentation. 
-- Each microservice has its own DockerFile. 
-- There is a tests folder where the unit tests are. 
+[Request Feature](https://applaudostudios.atlassian.net/browse) ·
 
-## Instalation
+[Jenkins WEB](https://jenkins-2.applaudostudios.com/blue/organizations/jenkins/Sacred%20Valley%2Fsacred-valley-webapp/activity) ·
 
-### Clone this project, run:
-    - git clone https://github.com/ar9uello/netChallenge.git
+[Jenkins API](https://jenkins-2.applaudostudios.com/blue/organizations/jenkins/Sacred%20Valley%2Fsacred-valley-api/activity) ·
 
-### Move to the folder project, run:
-    - cd NetChallenge
+[Swagger](https://sacred-api-dev.applaudostudios.com/swagger) ·
 
-### Start docker containers, run:
-    - docker-compose up
+[Figma](https://www.figma.com/file/DwLfrSPXglVnHm2ZqH8aS0/Sacred-Valley-Capital?node-id=127%3A0) ·
 
-## Documentation
+[Sonarqube](https://sonarqube.applaudostudios.com/dashboard?id=sacred-valley-api)
 
-You can see swagger documentation in the following links:
-- http://localhost:7001/swagger
-- http://localhost:7002/swagger
 
-## Project Requirements
+- [Sacred Valley WEB API](#sacred-valley-web-api)
 
-- Allow registered users to log in and talk with other users in a chatroom.
-  - Go to http://localhost:7000/
-  - You can log in with any of the users: user1, user2, user3, user4 (see image below)
-![](./img/Image1.png)
+  - [About The Project](#about-the-project)
 
-- Allow users to post messages as commands into the chatroom with the following format
-/stock=stock_code
-  - See image
-![](./img/Image2.png)
+    - [Built With](#built-with)
 
-- Have the chat messages ordered by their timestamps and show only the last 50 messages.
-  - See image
-![](./img/Image3.png)
+  - [Getting Started](#getting-started)
 
-## Unit tests
+    - [Prerequisites](#prerequisites)
 
-![](./img/xUnit.png)
+    - [Installation](#installation)
+
+  - [Usage](#usage)
+
+    - [Build](#build)
+
+    - [Start](#start)
+
+    - [Test](#test)
+
+    - [Configuration](#configuration)
+
+      - [Database Connection](#database-connection)
+
+      - [Firebase](#firebase)
+
+  - [Ticket Number](#ticket-number)
+
+  - [Branch Type](#branch-type)
+
+    - [master](#master)
+
+    - [develop](#develop)
+
+    - [release/YYYY.MM.DD.HH](#releaseyyyymmddhh)
+
+    - [feature/SVB-\#\#\#\#](#featuresvb-)
+
+    - [bugfix/SVB-\#\#\#\#](#bugfixsvb-)
+
+    - [hotfix/SVB-\#\#\#\#](#hotfixsvb-)
+
+  - [Contributing](#contributing)
+
+
+## About The Project
+
+
+### Built With
+
+
+- [ASP Net Core 3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1)
+
+- [Identity Server 4](https://identityserver4.readthedocs.io/en/latest/)
+
+
+And others, check it them in [package.json](package.json)
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+## Getting Started
+
+
+### Prerequisites
+
+
+You need have installed
+
+[Git (Latest)](https://git-scm.com), [Specflow](https://docs.specflow.org/projects/getting-started/en/latest/) and
+
+[AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+### Installation
+
+
+``` bash
+
+1. Clone the repo
+
+
+git clone git@bitbucket.org:sacredvalleyteam/sacred-valley-api.git -b develop
+
+
+cd sacred-valley-api
+
+```
+
+
+``` bash
+
+2. Assign AWS Keys
+
+
+AWS Configure
+
+
+# When executing the AWS Access Key, enter:
+
+Akiaxpqttxqxozhqdhep.
+
+# Then it will ask you for the AWS Secret Access Key, enter:
+
+o7pmzcvcexhzzcforxy0goskvfmyu43se2r5wrfq.
+
+```
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+## Usage
+
+
+### Build
+
+
+To build the project just run: `dotnet build`
+
+
+### Start
+
+
+To run the project on localhost just run: 
+
+
+``` ps
+
+dotnet run --project .\SacredValleyAPI\SacredValleyAPI.csproj
+
+```
+
+
+### Test
+
+
+To run all tests just run: `dotnet run`
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+### Configuration
+
+
+In development we usually use and [appsettings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0#appsettingsjson) file. You can find the configuration needed in this file: `SacredValleyAPI\appsettings.Development.json`.
+
+
+You also can override this configuration with [enviroment variables](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0#environment-variables)
+
+
+#### Database Connection
+
+
+We use these properties to configure the connectio to the database.
+
+
+``` json
+
+{ 
+
+  "DB_SERVER": "",
+
+  "DB_NAME": "",
+
+  "DB_USERID": "",
+
+  "DB_PASSWORD": ""
+
+}
+
+```
+
+
+#### Firebase
+
+
+This section is used to configure the push notification provider. You need to ask for the configuration file to the Android Team. This file is generated in the *service accounts* section on the firebase project configuration.
+
+
+``` json
+
+{
+
+  "FIREBASE":
+
+  {
+
+    "type": "",
+
+    "projectId": "",
+
+    "privateKeyId": "",
+
+    "privateKey": "",
+
+    "clientEmail": "",
+
+    "clientId": "",
+
+    "authUri": "",
+
+    "tokenUri": "",
+
+    "authProviderX509certUrl": "",
+
+    "clientX509CertUrl": ""
+
+  },
+
+}
+
+```
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+## Ticket Number
+
+
+The actual format is `SVB-###`, the `###` is a correlative number, example: `SVB-774`.
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+## Branch Type
+
+
+Read: [git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+
+
+### master
+
+
+Is the default branch available in the Git repository.
+
+It should be stable all the time and won’t allow any direct check-in.
+
+You can only merge it after code review.
+
+
+**All team members are responsible for keeping the master stable and up-to-date**.
+
+
+### develop
+
+
+Is the main development branch.
+
+The dev branch’s idea is to make changes in it and restrict the developers from making
+
+any changes in the master branch directly. Changes in the dev branch undergo reviews and,
+
+after testing, get merged with the master branch.
+
+
+### release/YYYY.MM.DD.HH
+
+
+Is the release branch.
+
+When the develop branch changes are considered stable it
+
+is advisable to create a release branch, then merge the changes into the master branch.
+
+
+**Always remember to delete this branch once it has been successfully merged in master**.
+
+
+```
+
+example:
+
+
+release/2021.10.05.1300
+
+```
+
+
+### feature/SVB-\#\#\#\#
+
+
+Is the feature temporary branch.
+
+The bug which needs to be fixed soon, You can only merge it after code review.
+
+
+**Always remember to delete this branch once it has been successfully merged in develop**.
+
+
+```
+
+example:
+
+
+feature/SVB-774
+
+```
+
+
+### bugfix/SVB-\#\#\#\#
+
+
+Is the bugfix temporary branch.
+
+For all the new features or improvements, You can only merge it after code review.
+
+
+**Always remember to delete this branch once it has been successfully merged in develop**.
+
+
+```
+
+example:
+
+
+bugfix/SVB-774
+
+```
+
+
+### hotfix/SVB-\#\#\#\#
+
+
+Is the hotfix temporary branch.
+
+The all test, You can only merge it after code review.
+
+
+**Always remember to delete this branch once it has been successfully merged in develop**.
+
+
+```
+
+example:
+
+
+hotfix/SVB-774
+
+```
+
+
+[(back to top)](#sacred-valley-web-api)
+
+
+## Contributing
+
+
+1.  Clone the Project,
+
+    **maybe need read about [installation](#installation)**
+
+2.  Create your Branch (`git checkout -b ${BRANCH-TYPE}/${TICKET-NUMBER} ${SOURCE-BRANCH}`),
+
+    **maybe need read about [branches](#branch-type)**
+
+3.  Made your changes
+
+4.  Before stage your changes, run the related tests (`dotnet test`),
+
+    **maybe need read about [tests](#test)**
+
+    <br />
+
+    <br />
+
+    ```text
+
+    🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨
+
+    🚨 If the tests are successful, continue with next steps; 🚨
+
+    🚨 otherwise, you have to fix the tests before continue.  🚨
+
+    🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨 🚨
+
+    ```
+
+    <br />
+
+5.  Stage your Changes (`git add -A`)
+
+6.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+
+7.  Push to the Branch (`git push origin ${BRANCH-TYPE}/${TICKET-NUMBER}`)
+
+8.  Open a Pull Request
+
+
+[(back to top)](#sacred-valley-web-api)
